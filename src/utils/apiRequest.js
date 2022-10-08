@@ -1,0 +1,118 @@
+import axios from "axios";
+import {
+  registerStart,
+  registerSuccess,
+  registerFail,
+  loginStart,
+  loginFail,
+  loginSuccess,
+  logoutStart,
+  logoutSuccess,
+  logoutFail,
+} from "../store/slices/authReducer";
+import {
+  setBooksPending,
+  setBooksSucceeded,
+} from "../store/slices/libraryReducer";
+import cartReducer from "../store/slices/cartReducer";
+export const registerUser = async (user, dispatch, navigate) => {
+  dispatch(registerStart());
+  try {
+    await axios.post("/v1/auth/register", user);
+    dispatch(registerSuccess());
+    await loginUser(user, dispatch, navigate);
+    navigate("/");
+  } catch (error) {
+    console.log(error);
+    dispatch(registerFail(error.response.data._message));
+  }
+};
+export const loginUser = async (user, dispatch, navigate) => {
+  dispatch(loginStart());
+  try {
+    const res = await axios.post("/v1/auth/login", user);
+    dispatch(loginSuccess(res.data));
+    navigate("/");
+  } catch (error) {
+    console.log(error.response.data);
+    dispatch(loginFail(error.response.data));
+  }
+};
+
+export const logoutUser = async (dispatch, navigate, accessToken, axiosJWT) => {
+  try {
+    dispatch(logoutStart());
+    await axiosJWT.post("/v1/auth/logout", {
+      headers: {
+        token: `Bearer ${accessToken}`,
+      },
+    });
+    dispatch(logoutSuccess());
+    dispatch(cartReducer.actions.clearCart());
+
+    navigate("/login");
+  } catch (error) {
+    console.log(error);
+    dispatch(logoutFail());
+  }
+};
+export const getAllBooks = async (setBooks, dispatch) => {
+  dispatch(setBooksPending());
+  let res = await axios.get("/v1/books");
+  dispatch(setBooksSucceeded([...res.data]));
+  setBooks([...res.data]);
+};
+export const addBook = async (book, axiosJWT, accessToken) => {
+  try {
+    await axiosJWT.post("/v1/books/addbook", book, {
+      headers: {
+        token: `Bearer ${accessToken}`,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getAllOrders = async (setOrders, accessToken, axiosJWT) => {
+  try {
+    const res = await axiosJWT.get("/v1/orders/getallorders", {
+      headers: {
+        token: `Bearer ${accessToken}`,
+      },
+    });
+    setOrders([...res.data]);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getBooksFromOrderDetails = async (
+  orderID,
+  accessToken,
+  axiosJWT,
+  setBooks
+) => {
+  try {
+    const res = await axiosJWT.get("/v1/orders/booksfromorder", orderID, {
+      headers: {
+        token: `Bearer ${accessToken}`,
+      },
+    });
+    setBooks([...res.data]);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const addOrder = async (order, accessToken, axiosJWT) => {
+  try {
+    await axiosJWT.post("/v1/orders/addorder", order, {
+      headers: {
+        token: `Bearer ${accessToken}`,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};

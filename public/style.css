@@ -1,0 +1,15 @@
+.makeStyles-root-1{
+    width: 100% !important;
+}
+.logoHome{
+    width: 100% ;
+    border-radius: 50% ;
+    transition: all 0.1s linear;
+}
+.logoHome:hover{
+    transform: scale(1.05);
+    cursor: pointer;
+}
+.BungeeFont{
+    font-family: 'Bungee', cursive !important;
+}
