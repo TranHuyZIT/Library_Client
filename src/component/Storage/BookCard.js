@@ -14,6 +14,7 @@ export default function BookCard({
   delay,
   book,
   setSelected,
+  isAdmin,
 }) {
   return (
     <Zoom in={true} style={{ transitionDelay: delay ? "100ms" : "0ms" }}>
@@ -65,6 +66,22 @@ export default function BookCard({
           </Typography>
         </CardContent>
         <CardActions sx={{ display: "flex", justifyContent: "flex-end" }}>
+          {isAdmin && (
+            <Button
+              sx={{ backgroundColor: "primary.main" }}
+              variant="contained"
+              onClick={() => {
+                const selected = {
+                  book,
+                  id: book._id,
+                };
+                setSelected(selected);
+              }}
+              size="small"
+            >
+              Xóa Bỏ
+            </Button>
+          )}
           <Button
             sx={{ backgroundColor: "secondary.main" }}
             variant="contained"

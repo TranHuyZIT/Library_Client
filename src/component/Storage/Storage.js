@@ -2,7 +2,11 @@ import Grid from "@mui/material/Grid";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import useDelay from "../../hooks/useDelay";
-import { librarySelector, searchSelector } from "../../store/selectors";
+import {
+  librarySelector,
+  searchSelector,
+  userSelector,
+} from "../../store/selectors";
 import { createLibraryInstance } from "../../utils/createLibraryInstance";
 import NavBar from "../AppBar/AppBar";
 import BookCard from "./BookCard";
@@ -15,6 +19,7 @@ export default function Storage() {
   const books = libraryInfo.books;
   const { search } = useSelector(searchSelector);
   const delayedSearch = useDelay(search);
+  const currentUser = useSelector(userSelector);
 
   const [result, setResult] = useState([]);
   const [openDetailModal, setOpenDetailModal] = useState(false);
@@ -85,6 +90,7 @@ export default function Storage() {
                           delay={index !== 0 ? true : false}
                           book={book}
                           setSelected={setSelected}
+                          isAdmin={currentUser?.admin}
                         ></BookCard>
                       </Grid>
                     );

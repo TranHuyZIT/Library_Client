@@ -21,7 +21,7 @@ const theme = createTheme({
       paper: "#ffffff",
     },
     warning: {
-      main: "#f9d091",
+      main: "#4dccbd",
     },
     error: {
       main: "#fa8804",

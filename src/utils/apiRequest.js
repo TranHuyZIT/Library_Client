@@ -73,6 +73,17 @@ export const addBook = async (book, axiosJWT, accessToken) => {
     console.log(error);
   }
 };
+export const deleteBook = async (bookID, axiosJWT, accessToken) => {
+  try {
+    await axiosJWT.delete(`/v1/books/deletebook/${bookID}`, {
+      headers: {
+        token: `Bearer ${accessToken}`,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const getAllOrders = async (setOrders, accessToken, axiosJWT) => {
   try {
