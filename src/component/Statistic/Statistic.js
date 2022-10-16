@@ -21,7 +21,7 @@ export default function Statistic() {
     totalRater: 0,
   });
   useEffect(() => {
-    getAllOrders(setOrders, currentUser?.accessToken, axiosJWT);
+    getAllOrders(setOrders, currentUser?.accessToken, axiosJWT, true);
   }, []);
   useEffect(() => {
     console.log(orders);

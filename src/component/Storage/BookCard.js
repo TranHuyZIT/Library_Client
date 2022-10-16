@@ -74,6 +74,7 @@ export default function BookCard({
                 const selected = {
                   book,
                   id: book._id,
+                  btn: "delete",
                 };
                 setSelected(selected);
               }}
@@ -89,6 +90,7 @@ export default function BookCard({
               const selected = {
                 book,
                 id: book._id,
+                btn: "detail",
               };
               setSelected(selected);
             }}

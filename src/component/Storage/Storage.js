@@ -14,6 +14,7 @@ import AddModal from "./AddModal";
 import SearchBar from "./SearchBar";
 import DetailModal from "./DetailModal";
 import { Paper } from "@mui/material";
+import ConfirmModal from "../Modal/ConfirmModal";
 export default function Storage() {
   let libraryInfo = useSelector(librarySelector);
   const books = libraryInfo.books;
@@ -24,6 +25,7 @@ export default function Storage() {
   const [result, setResult] = useState([]);
   const [openDetailModal, setOpenDetailModal] = useState(false);
   const [openAddModal, setOpenAddModal] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [selected, setSelected] = useState({});
 
   const searchBook = (searchText) => {
@@ -45,9 +47,10 @@ export default function Storage() {
     setResult([...searchBook(delayedSearch)]);
   }, [delayedSearch]);
   useEffect(() => {
-    const { book, id } = selected;
+    const { book, id, btn } = selected;
     if (id) {
-      setOpenDetailModal(true);
+      if (btn === "detail") setOpenDetailModal(true);
+      if (btn === "delete") setOpenDeleteModal(true);
     }
   }, [selected]);
   return (
@@ -101,11 +104,18 @@ export default function Storage() {
         </Paper>
       </Grid>
       <AddModal open={openAddModal} setOpenAddModal={setOpenAddModal} />
-      {selected.book && (
+      {selected.book && openDetailModal && (
         <DetailModal
           open={openDetailModal}
           setOpenDetailModal={setOpenDetailModal}
           book={{ ...selected.book } || {}}
+        />
+      )}
+      {selected && openDeleteModal && (
+        <ConfirmModal
+          open={openDeleteModal}
+          setOpenConfirmModal={setOpenDeleteModal}
+          bookID={selected.id}
         />
       )}
     </Grid>

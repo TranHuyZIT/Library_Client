@@ -85,13 +85,24 @@ export const deleteBook = async (bookID, axiosJWT, accessToken) => {
   }
 };
 
-export const getAllOrders = async (setOrders, accessToken, axiosJWT) => {
+export const getAllOrders = async (
+  setOrders,
+  accessToken,
+  axiosJWT,
+  completed
+) => {
+  console.log(accessToken);
   try {
-    const res = await axiosJWT.get("/v1/orders/getallorders", {
-      headers: {
-        token: `Bearer ${accessToken}`,
-      },
-    });
+    const res = await axiosJWT.get(
+      "/v1/orders/getallorders",
+      { params: { completed } },
+      {
+        headers: {
+          token: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    console.log(res.data);
     setOrders([...res.data]);
   } catch (error) {
     console.log(error);
@@ -118,7 +129,21 @@ export const getBooksFromOrderDetails = async (
 
 export const addOrder = async (order, accessToken, axiosJWT) => {
   try {
+    console.log(order);
     await axiosJWT.post("/v1/orders/addorder", order, {
+      headers: {
+        token: `Bearer ${accessToken}`,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const completeOrder = async (order, accessToken, axiosJWT) => {
+  try {
+    console.log(order);
+    await axiosJWT.put(`/v1/orders/${order._id}`, {
       headers: {
         token: `Bearer ${accessToken}`,
       },

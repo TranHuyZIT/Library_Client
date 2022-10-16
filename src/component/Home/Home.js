@@ -22,8 +22,13 @@ export default function Home() {
       </Grid>
       <Grid item xs={11}>
         <Paper sx={{ padding: "16px" }} elevation={5}>
-          <Grid container justifyContent="center" spacing={2}>
-            <Grid item xs={8}>
+          <Grid
+            container
+            justifyContent="center"
+            alignItems="center"
+            spacing={2}
+          >
+            <Grid item xs={12} sm={8}>
               <MuiImageSlider
                 classes="imageslider"
                 style={{ width: "100%" }}
@@ -32,16 +37,18 @@ export default function Home() {
                 images={imagesForSlide}
               ></MuiImageSlider>
             </Grid>
-            <Grid item xs={4}>
-              <Grid container spacing={2}>
+            <Grid item xs={12} sm={4}>
+              <Grid justifyContent="center" container spacing={2}>
                 <Grid item xs={12}>
                   <img
+                    style={{ width: "100%" }}
                     src="https://cdn0.fahasa.com/media/wysiwyg/Thang-09-2022/Big%20sale_Flash%20sale_Sub%20banner_392x156.jpg"
                     alt="error"
                   ></img>
                 </Grid>
                 <Grid item xs={12}>
                   <img
+                    style={{ width: "100%" }}
                     src="https://cdn0.fahasa.com/media/wysiwyg/Duy-VHDT/STKT9_Banner_392x156.jpg"
                     alt="error"
                   ></img>

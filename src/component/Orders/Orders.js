@@ -1,4 +1,4 @@
-import { Grid, Paper, Typography, Zoom } from "@mui/material";
+import { Button, Grid, Paper, Typography, Zoom } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -9,6 +9,7 @@ import { createAxios } from "../../createInstance";
 import { librarySelector, userSelector } from "../../store/selectors";
 import { getAllOrders } from "../../utils/apiRequest";
 import NavBar from "../AppBar/AppBar";
+import ConfirmModal from "../Modal/ConfirmModal";
 
 export default function Members() {
   const currentUser = useSelector(userSelector);
@@ -16,9 +17,16 @@ export default function Members() {
   const axiosJWT = createAxios(currentUser);
   const [orders, setOrders] = useState([]);
   const [bookNames, setBookNames] = useState([]);
+  const [openConfirm, setOpenConfirm] = useState(false);
+  const [selected, setSelected] = useState(null);
 
+  const completeOrderClick = (order) => {
+    setOpenConfirm(true);
+    setSelected(order);
+  };
   useEffect(() => {
-    getAllOrders(setOrders, currentUser?.accessToken, axiosJWT);
+    const completed = false;
+    getAllOrders(setOrders, currentUser?.accessToken, axiosJWT, completed);
   }, []);
   useEffect(() => {
     if (allBooks.length > 0 && orders.length > 0) {
@@ -49,7 +57,7 @@ export default function Members() {
             {orders &&
               orders.map((order, index) => {
                 return (
-                  <Grid key={order._id} item xs={3}>
+                  <Grid key={order._id} item xs={12} sm={6} md={3}>
                     <Zoom
                       in={true}
                       style={{
@@ -173,7 +181,7 @@ export default function Members() {
                               }}
                               component="div"
                             >
-                              Tên Sách:
+                              Đơn Hàng:
                             </Typography>
                           </div>
                           <div
@@ -195,6 +203,18 @@ export default function Members() {
                             </p>
                           </div>
                         </CardContent>
+                        <CardActions
+                          sx={{ display: "flex", justifyContent: "flex-end" }}
+                        >
+                          <Button
+                            onClick={() => {
+                              completeOrderClick(order);
+                            }}
+                            variant="contained"
+                          >
+                            Đã Hoàn Thành
+                          </Button>
+                        </CardActions>
                       </Card>
                     </Zoom>
                   </Grid>
@@ -203,6 +223,13 @@ export default function Members() {
           </Grid>
         </Paper>
       </Grid>
+      {openConfirm && (
+        <ConfirmModal
+          open={openConfirm}
+          setOpenConfirmModal={setOpenConfirm}
+          order={selected}
+        />
+      )}
     </Grid>
   );
 }

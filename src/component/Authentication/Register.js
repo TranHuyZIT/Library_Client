@@ -23,6 +23,7 @@ export default function Register() {
   const registerState = useSelector(registerSelector);
   const isFetching = registerState.isFetching;
   const error = registerState.error;
+  console.log(error);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleRegister = () => {
@@ -94,6 +95,7 @@ export default function Register() {
                 id="outlined-textarea"
                 label="Mật Khẩu"
                 placeholder="Nhập vào mật khẩu"
+                type="password"
                 multiline
                 onChange={(e) => {
                   setPassword(e.target.value);

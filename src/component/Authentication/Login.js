@@ -7,6 +7,8 @@ import {
   CircularProgress,
 } from "@mui/material";
 import TextField from "@mui/material/TextField";
+import Visibility from "@mui/icons-material/Visibility";
+import InputAdornment from "@mui/material/InputAdornment";
 import { Box } from "@mui/system";
 import NavBar from "../AppBar/AppBar";
 import VpnKeyIcon from "@mui/icons-material/VpnKey";
@@ -15,12 +17,13 @@ import { loginUser } from "../../utils/apiRequest";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loginSelector } from "../../store/selectors";
-export default function Register() {
+export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const loginState = useSelector(loginSelector);
   const error = loginState.error;
+  console.log(error);
   const isFetching = loginState.isFetching;
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -81,7 +84,7 @@ export default function Register() {
                 id="outlined-textarea"
                 label="Mật Khẩu"
                 placeholder="Nhập vào mật khẩu"
-                multiline
+                type="password"
                 hidden
                 onChange={(e) => {
                   setPassword(e.target.value);
@@ -102,7 +105,7 @@ export default function Register() {
                   sx={{ textAlign: "center", color: "secondary.main" }}
                   variant="h4"
                 >
-                  {error}
+                  {error.name}
                 </Typography>
               )}
               <div
