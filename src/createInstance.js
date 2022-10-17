@@ -1,8 +1,9 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
+const API = "http://giahui-library.herokuapp.com";
 const refreshtoken = async () => {
   try {
-    const res = await axios.post("/v1/auth/refreshtoken", {
+    const res = await axios.post(`${API}/v1/auth/refreshtoken`, {
       withCredentials: true,
     });
     return res.data;

@@ -30,7 +30,7 @@ export default function Home() {
           >
             <Grid item xs={12} sm={8}>
               <MuiImageSlider
-                classes="imageslider"
+                className="imageslider"
                 style={{ width: "100%" }}
                 fitToImageHeight={true}
                 autoPlay={true}
