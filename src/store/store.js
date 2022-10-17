@@ -9,19 +9,12 @@ import cartReducer from "./slices/cartReducer";
 const persistConfig = {
   key: "root",
   storage,
-  blacklist: ["auth"],
-};
-
-const authPersistConfig = {
-  key: "auth",
-  storage: storage,
-  blacklist: ["register"],
 };
 
 const rootReducer = combineReducers({
   library: libraryReducer.reducer,
   search: searchReducer.reducer,
-  auth: persistReducer(authPersistConfig, authReducer.reducer),
+  auth: authReducer.reducer,
   cart: cartReducer.reducer,
 });
 

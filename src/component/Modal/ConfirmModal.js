@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { libraryReducer } from "../../store/slices/libraryReducer";
 import { addBook, deleteBook } from "../../utils/apiRequest";
 import { userSelector } from "../../store/selectors";
@@ -29,7 +29,6 @@ export default function ConfirmModal({
   bookID,
   order,
 }) {
-  const dispatch = useDispatch();
   const currentUser = useSelector(userSelector);
   const axiosJWT = createAxios(currentUser);
 

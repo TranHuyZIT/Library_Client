@@ -32,8 +32,9 @@ const pages = [
 const link = ["/", "/storage", "/statistic", "/register", "/login", "/orders"];
 const NavBar = () => {
   const currentUser = useSelector(userSelector);
-  const axiosJWT = createAxios(currentUser);
   const dispatch = useDispatch();
+  const axiosJWT = createAxios(currentUser);
+
   const navigate = useNavigate();
   const cart = useSelector(cartSelector);
   const [anchorEl, setAnchorEl] = useState(null);

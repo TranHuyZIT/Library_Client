@@ -23,7 +23,6 @@ export default function Login() {
 
   const loginState = useSelector(loginSelector);
   const error = loginState.error;
-  console.log(error);
   const isFetching = loginState.isFetching;
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -105,7 +104,7 @@ export default function Login() {
                   sx={{ textAlign: "center", color: "secondary.main" }}
                   variant="h4"
                 >
-                  {error.name}
+                  {error}
                 </Typography>
               )}
               <div

@@ -16,6 +16,7 @@ import {
 } from "../store/slices/libraryReducer";
 import cartReducer from "../store/slices/cartReducer";
 const API = "https://giahui-library.herokuapp.com";
+// const API = "http://localhost:5000";
 export const registerUser = async (user, dispatch, navigate) => {
   dispatch(registerStart());
   try {
@@ -31,10 +32,11 @@ export const registerUser = async (user, dispatch, navigate) => {
 export const loginUser = async (user, dispatch, navigate) => {
   dispatch(loginStart());
   try {
-    const res = await axios.post(`${API}/v1/auth/login`, user, {
-      withCredentials: true,
-    });
-    dispatch(loginSuccess(res.data));
+    const res = await axios.post(`${API}/v1/auth/login`, user);
+    const { refreshToken, ...data } = res.data;
+    console.log(refreshToken, data);
+    localStorage.setItem("refreshToken", refreshToken);
+    dispatch(loginSuccess(data));
     navigate("/");
   } catch (error) {
     console.log(error.response.data);
@@ -45,11 +47,9 @@ export const loginUser = async (user, dispatch, navigate) => {
 export const logoutUser = async (dispatch, navigate, accessToken, axiosJWT) => {
   try {
     dispatch(logoutStart());
-    await axiosJWT.post(`${API}/v1/auth/logout`, {
-      headers: {
-        token: `Bearer ${accessToken}`,
-      },
-    });
+    const refreshToken = localStorage.getItem("refreshToken");
+    await axiosJWT.post(`${API}/v1/auth/logout`, { refreshToken });
+    localStorage.removeItem("refreshToken");
     dispatch(logoutSuccess());
     dispatch(cartReducer.actions.clearCart());
 
@@ -67,22 +67,14 @@ export const getAllBooks = async (setBooks, dispatch) => {
 };
 export const addBook = async (book, axiosJWT, accessToken) => {
   try {
-    await axiosJWT.post(`${API}/v1/books/addbook`, book, {
-      headers: {
-        token: `Bearer ${accessToken}`,
-      },
-    });
+    await axiosJWT.post(`${API}/v1/books/addbook`, book);
   } catch (error) {
     console.log(error);
   }
 };
 export const deleteBook = async (bookID, axiosJWT, accessToken) => {
   try {
-    await axiosJWT.delete(`${API}/v1/books/deletebook/${bookID}`, {
-      headers: {
-        token: `Bearer ${accessToken}`,
-      },
-    });
+    await axiosJWT.delete(`${API}/v1/books/deletebook/${bookID}`);
   } catch (error) {
     console.log(error);
   }
@@ -96,15 +88,9 @@ export const getAllOrders = async (
 ) => {
   console.log(accessToken);
   try {
-    const res = await axiosJWT.get(
-      `${API}/v1/orders/getallorders`,
-      { params: { completed } },
-      {
-        headers: {
-          token: `Bearer ${accessToken}`,
-        },
-      }
-    );
+    const res = await axiosJWT.get(`${API}/v1/orders/getallorders`, {
+      params: { completed },
+    });
     console.log(res.data);
     setOrders([...res.data]);
   } catch (error) {
@@ -119,11 +105,7 @@ export const getBooksFromOrderDetails = async (
   setBooks
 ) => {
   try {
-    const res = await axiosJWT.get(`${API}/v1/orders/booksfromorder`, orderID, {
-      headers: {
-        token: `Bearer ${accessToken}`,
-      },
-    });
+    const res = await axiosJWT.get(`${API}/v1/orders/booksfromorder`, orderID);
     setBooks([...res.data]);
   } catch (error) {
     console.log(error);
@@ -133,11 +115,7 @@ export const getBooksFromOrderDetails = async (
 export const addOrder = async (order, accessToken, axiosJWT) => {
   try {
     console.log(order);
-    await axiosJWT.post(`${API}/v1/orders/addorder`, order, {
-      headers: {
-        token: `Bearer ${accessToken}`,
-      },
-    });
+    await axiosJWT.post(`${API}/v1/orders/addorder`, order);
   } catch (error) {
     console.log(error);
   }
@@ -146,11 +124,7 @@ export const addOrder = async (order, accessToken, axiosJWT) => {
 export const completeOrder = async (order, accessToken, axiosJWT) => {
   try {
     console.log(order);
-    await axiosJWT.put(`${API}/v1/orders/${order._id}`, {
-      headers: {
-        token: `Bearer ${accessToken}`,
-      },
-    });
+    await axiosJWT.put(`${API}/v1/orders/${order._id}`);
   } catch (error) {
     console.log(error);
   }

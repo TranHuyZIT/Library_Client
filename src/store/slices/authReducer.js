@@ -28,6 +28,9 @@ const authReducer = createSlice({
       state.login.currentUser = null;
       state.login.error = action.payload;
     },
+    refreshTokenSuccess: (state, action) => {
+      state.currentUser.refreshToken = action.payload;
+    },
     registerStart: (state, action) => {
       state.register.isFetching = true;
     },
@@ -56,7 +59,8 @@ const authReducer = createSlice({
   },
 });
 
-export const { loginStart, loginSuccess, loginFail } = authReducer.actions;
+export const { loginStart, loginSuccess, loginFail, refreshTokenSuccess } =
+  authReducer.actions;
 export const { registerStart, registerSuccess, registerFail } =
   authReducer.actions;
 export const { logoutStart, logoutSuccess, logoutFail } = authReducer.actions;
