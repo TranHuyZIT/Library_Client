@@ -2,8 +2,7 @@ import Grid from "@mui/material/Grid";
 import NavBar from "../AppBar/AppBar";
 import { Paper, Typography } from "@mui/material";
 import MuiImageSlider from "mui-image-slider";
-import { useSelector } from "react-redux";
-import { librarySelector } from "../../store/selectors";
+import { styled } from "@mui/material/styles";
 import "./Home.css";
 
 export default function Home() {
@@ -13,6 +12,34 @@ export default function Home() {
     "https://cdn0.fahasa.com/media/magentothem/banner7/STKT9_Banner_840x320.jpg",
     "https://cdn0.fahasa.com/media/magentothem/banner7/dongamamxanh_resize_840x320.jpg",
   ];
+  const Heading = styled("div")(({ theme }) => ({
+    padding: theme.spacing(1),
+    [theme.breakpoints.up("md")]: {
+      color: "white",
+      fontWeight: "700",
+      textAlign: "center",
+      padding: "24px",
+      backgroundColor: "#012641",
+      borderRadius: "8px",
+      width: "20%",
+      fontSize: "32px",
+      textAlign: "center",
+      fontFamily: "Roboto",
+    },
+    [theme.breakpoints.down("md")]: {
+      color: "white",
+      fontWeight: "700",
+      textAlign: "center",
+      fontFamily: "Roboto",
+      padding: "8px",
+      backgroundColor: "#012641",
+      borderRadius: "16px",
+      width: "20%",
+      fontSize: "24px",
+      textAlign: "center",
+      marginBottom: "16px",
+    },
+  }));
   return (
     <Grid container justifyContent="center" spacing={2}>
       <Grid item xs={12}>
@@ -62,21 +89,7 @@ export default function Home() {
           >
             <Grid justifyContent="center" item xs={12}>
               <div style={{ display: "flex", justifyContent: "center" }}>
-                <Typography
-                  sx={{
-                    color: "white",
-                    fontWeight: "700",
-                    textAlign: "center",
-                    padding: "24px",
-                    backgroundColor: "primary.main",
-                    borderRadius: "8px",
-                    width: "20%",
-                  }}
-                  variant="h4"
-                  component="h4"
-                >
-                  Về Chúng Tôi
-                </Typography>
+                <Heading>Về Chúng Tôi</Heading>
               </div>
               <Grid item xs={12}>
                 <Grid

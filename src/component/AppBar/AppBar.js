@@ -147,11 +147,58 @@ const NavBar = () => {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
+              {pages.map((page, index) => {
+                if (page === "Đăng Ký" || page === "Đăng Nhập") {
+                  return (
+                    !currentUser && (
+                      <Link
+                        key={page}
+                        style={{ textDecoration: "none" }}
+                        to={link[index]}
+                      >
+                        <Button
+                          onClick={handleCloseNavMenu}
+                          sx={{ my: 2, color: "black", display: "block" }}
+                        >
+                          {page}
+                        </Button>
+                      </Link>
+                    )
+                  );
+                } else if (page === "Đơn Hàng" || page === "Thống Kê") {
+                  return (
+                    currentUser?.admin && (
+                      <Link
+                        key={page}
+                        style={{ textDecoration: "none" }}
+                        to={link[index]}
+                      >
+                        <Button
+                          onClick={handleCloseNavMenu}
+                          sx={{ my: 2, color: "black", display: "block" }}
+                        >
+                          {page}
+                        </Button>
+                      </Link>
+                    )
+                  );
+                } else {
+                  return (
+                    <Link
+                      key={page}
+                      style={{ textDecoration: "none" }}
+                      to={link[index]}
+                    >
+                      <Button
+                        onClick={handleCloseNavMenu}
+                        sx={{ my: 2, color: "black", display: "block" }}
+                      >
+                        {page}
+                      </Button>
+                    </Link>
+                  );
+                }
+              })}
             </Menu>
           </Box>
           <AutoStoriesIcon
