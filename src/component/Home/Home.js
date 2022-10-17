@@ -2,10 +2,9 @@ import Grid from "@mui/material/Grid";
 import NavBar from "../AppBar/AppBar";
 import { Paper, Typography } from "@mui/material";
 import MuiImageSlider from "mui-image-slider";
-import { createLibraryInstance } from "../../utils/createLibraryInstance";
 import { useSelector } from "react-redux";
 import { librarySelector } from "../../store/selectors";
-import { height } from "@mui/system";
+import "./Home.css";
 
 export default function Home() {
   const imagesForSlide = [
@@ -14,7 +13,6 @@ export default function Home() {
     "https://cdn0.fahasa.com/media/magentothem/banner7/STKT9_Banner_840x320.jpg",
     "https://cdn0.fahasa.com/media/magentothem/banner7/dongamamxanh_resize_840x320.jpg",
   ];
-  const libraryState = useSelector(librarySelector);
   return (
     <Grid container justifyContent="center" spacing={2}>
       <Grid item xs={12}>
