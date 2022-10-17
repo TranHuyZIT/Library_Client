@@ -69,7 +69,7 @@ export default function Storage() {
                 {result.length === 0 &&
                   delayedSearch === "" &&
                   books.map((book, index) => (
-                    <Grid item xs={6} sm={4} md={3} key={book._id}>
+                    <Grid item xs={6} sm={4} md={3} lg={2} key={book._id}>
                       <BookCard
                         name={book.name}
                         author={book.author}
@@ -84,7 +84,7 @@ export default function Storage() {
                 {result.length !== 0 &&
                   result.map((book, index) => {
                     return (
-                      <Grid item xs={2} key={book._id}>
+                      <Grid item xs={6} sm={4} md={3} lg={2} key={book._id}>
                         <BookCard
                           name={book.name}
                           author={book.author}
