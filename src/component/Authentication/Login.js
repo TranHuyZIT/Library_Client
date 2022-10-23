@@ -26,8 +26,7 @@ export default function Login() {
   const isFetching = loginState.isFetching;
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const handleLogin = (e) => {
-    e.preventDefault();
+  const handleLogin = () => {
     if (username && password) {
       const user = {
         username,
@@ -88,6 +87,11 @@ export default function Login() {
                 onChange={(e) => {
                   setPassword(e.target.value);
                 }}
+                onKeyUp={(e) => {
+                  if (e.code === "Enter") {
+                    handleLogin();
+                  }
+                }}
               />
               {isFetching ? (
                 <div
@@ -115,8 +119,8 @@ export default function Login() {
                 }}
               >
                 <Button
-                  onClick={(e) => {
-                    handleLogin(e);
+                  onClick={() => {
+                    handleLogin();
                   }}
                   variant="contained"
                 >

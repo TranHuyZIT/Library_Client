@@ -1,0 +1,22 @@
+.resultItem{
+    height: 64px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    transition: all 0.2s ease-in;
+    background-color: white;
+    cursor: pointer;
+}
+.result{
+    position: absolute;
+}
+.resultItem:hover{
+    background-color: #ccc;
+}
+.message{
+    width: 100%;
+    position: absolute;
+    background-color: white;
+    font-size: 24px;
+    padding: 8px;
+}

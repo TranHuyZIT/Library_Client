@@ -1,20 +1,8 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import { refreshTokenSuccess } from "./store/slices/authReducer";
-// const API = "http://localhost:5000";
-const API = "https://giahui-library.herokuapp.com";
-
-const refreshtoken = async (refreshToken) => {
-  try {
-    console.log(refreshToken);
-    const res = await axios.post(`${API}/v1/auth/refreshtoken`, {
-      refreshToken,
-    });
-    return res.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
+const API = "http://localhost:5000";
+// const API = "https://giahui-library.herokuapp.com";
 
 export const createAxios = (user) => {
   const newInstance = axios.create();
@@ -30,7 +18,6 @@ export const createAxios = (user) => {
           refreshToken,
         });
         const data = res.data;
-        console.log(data);
         config.headers["token"] = `Bearer ${data.accessToken}`;
         // dispatch(refreshTokenSuccess(data.refreshToken));
         localStorage.setItem("refreshToken", data.refreshToken);

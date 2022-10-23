@@ -4,13 +4,13 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { createAxios } from "../../createInstance";
 import { librarySelector, userSelector } from "../../store/selectors";
 import { getAllOrders } from "../../utils/apiRequest";
 import NavBar from "../AppBar/AppBar";
 import ConfirmModal from "../Modal/ConfirmModal";
-
+import OrderDetail from "./OrderDetail";
 export default function Members() {
   const currentUser = useSelector(userSelector);
   const allBooks = useSelector(librarySelector).books;
@@ -19,45 +19,33 @@ export default function Members() {
   const [bookNames, setBookNames] = useState([]);
   const [openConfirm, setOpenConfirm] = useState(false);
   const [selected, setSelected] = useState(null);
+  const [openDetail, setOpenDetail] = useState(false);
+
+  const openDetailOrder = (order) => {
+    setSelected(order);
+    setOpenDetail(true);
+  };
 
   const completeOrderClick = (order) => {
-    setOpenConfirm(true);
     setSelected(order);
+    setOpenConfirm(true);
   };
   useEffect(() => {
     const completed = false;
     getAllOrders(setOrders, currentUser?.accessToken, axiosJWT, completed);
   }, []);
-  useEffect(() => {
-    if (allBooks.length > 0 && orders.length > 0) {
-      for (let order of orders) {
-        console.log(order);
-        let string = "";
-        for (let book of order.books) {
-          console.log(book);
-          const bookInStorage = allBooks.find((bookStorage) => {
-            return bookStorage._id == book.bookID;
-          });
-          string += bookInStorage.name + ", ";
-        }
-        string = string.slice(0, string.length - 2);
-
-        setBookNames((current) => [...current, string]);
-      }
-    }
-  }, [orders, allBooks]);
   return (
     <Grid container spacing={2} justifyContent="center">
       <Grid item xs={12}>
         <NavBar></NavBar>
       </Grid>
-      <Grid item xs={11}>
+      <Grid item xs={12}>
         <Paper sx={{ padding: "16px" }} elevation={5}>
           <Grid container spacing={2}>
             {orders &&
               orders.map((order, index) => {
                 return (
-                  <Grid key={order._id} item xs={12} sm={6} md={3}>
+                  <Grid key={order._id} item xs={12} sm={6} md={4} lg={3}>
                     <Zoom
                       in={true}
                       style={{
@@ -67,12 +55,17 @@ export default function Members() {
                       }}
                     >
                       <Card
+                        onClick={() => {
+                          openDetailOrder(order);
+                        }}
                         sx={{
-                          maxWidth: 345,
+                          display: "flex",
+                          justifyContent: "center",
+                          flexDirection: "column",
                           "&:hover": {
                             boxShadow:
                               "rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px",
-                            transform: "scale(1.1)",
+                            transform: "scale(1.05)!important",
                             transition: "all linear 0.1s",
                             cursor: "pointer",
                           },
@@ -88,7 +81,6 @@ export default function Members() {
                           <div
                             style={{
                               display: "flex",
-                              justifyContent: "center",
                               alignItems: "center",
                             }}
                           >
@@ -102,10 +94,11 @@ export default function Members() {
                                 WebkitLineClamp: 1,
                                 fontWeight: "700",
                                 color: "secondary.main",
+                                minWidth: "25%",
                               }}
                               component="div"
                             >
-                              Tên Người Dùng:
+                              ID:
                             </Typography>
                             <Typography
                               variant="h6"
@@ -120,13 +113,50 @@ export default function Members() {
                                 marginLeft: "4px",
                               }}
                             >
-                              {order.userName}
+                              {order._id}
                             </Typography>
                           </div>
                           <div
                             style={{
                               display: "flex",
-                              justifyContent: "center",
+                              alignItems: "center",
+                            }}
+                          >
+                            <Typography
+                              variant="h6"
+                              sx={{
+                                fontSize: "16px",
+                                display: "-webkit-box",
+                                overflow: "hidden",
+                                WebkitBoxOrient: "vertical",
+                                WebkitLineClamp: 2,
+                                fontWeight: "700",
+                                color: "secondary.main",
+                                minWidth: "25%",
+                              }}
+                              component="div"
+                            >
+                              SĐT:
+                            </Typography>
+                            <Typography
+                              variant="h6"
+                              component="div"
+                              sx={{
+                                fontSize: "16px",
+                                display: "-webkit-box",
+                                overflow: "hidden",
+                                WebkitBoxOrient: "vertical",
+                                WebkitLineClamp: 1,
+                                fontWeight: "400",
+                                marginLeft: "4px",
+                              }}
+                            >
+                              {order.phoneNumber}
+                            </Typography>
+                          </div>
+                          <div
+                            style={{
+                              display: "flex",
                               alignItems: "center",
                             }}
                           >
@@ -140,6 +170,46 @@ export default function Members() {
                                 WebkitLineClamp: 1,
                                 fontWeight: "700",
                                 color: "secondary.main",
+                                minWidth: "25%",
+                              }}
+                              component="div"
+                            >
+                              Họ Tên:
+                            </Typography>
+                            <Typography
+                              variant="h6"
+                              component="div"
+                              sx={{
+                                fontSize: "16px",
+                                display: "-webkit-box",
+                                overflow: "hidden",
+                                WebkitBoxOrient: "vertical",
+                                WebkitLineClamp: 1,
+                                fontWeight: "400",
+                                marginLeft: "4px",
+                              }}
+                            >
+                              {order.fullName}
+                            </Typography>
+                          </div>
+
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                            }}
+                          >
+                            <Typography
+                              variant="h6"
+                              sx={{
+                                fontSize: "16px",
+                                display: "-webkit-box",
+                                overflow: "hidden",
+                                WebkitBoxOrient: "vertical",
+                                WebkitLineClamp: 1,
+                                fontWeight: "700",
+                                color: "secondary.main",
+                                minWidth: "25%",
                               }}
                               component="div"
                             >
@@ -160,47 +230,6 @@ export default function Members() {
                             >
                               {order.totalPrice}
                             </Typography>
-                          </div>
-                          <div
-                            style={{
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                            }}
-                          >
-                            <Typography
-                              variant="h6"
-                              sx={{
-                                fontSize: "16px",
-                                display: "-webkit-box",
-                                overflow: "hidden",
-                                WebkitBoxOrient: "vertical",
-                                WebkitLineClamp: 1,
-                                fontWeight: "700",
-                                color: "secondary.main",
-                              }}
-                              component="div"
-                            >
-                              Đơn Hàng:
-                            </Typography>
-                          </div>
-                          <div
-                            style={{
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                            }}
-                          >
-                            <p
-                              style={{
-                                fontSize: "18px",
-                                fontWeight: "400",
-                                marginLeft: "4px",
-                                textAlign: "center",
-                              }}
-                            >
-                              {bookNames[index]}
-                            </p>
                           </div>
                         </CardContent>
                         <CardActions
@@ -229,6 +258,12 @@ export default function Members() {
           setOpenConfirmModal={setOpenConfirm}
           order={selected}
         />
+      )}
+      {openDetail && (
+        <OrderDetail
+          order={selected}
+          setOpenDetail={setOpenDetail}
+        ></OrderDetail>
       )}
     </Grid>
   );

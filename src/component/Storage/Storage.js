@@ -7,7 +7,7 @@ import {
   searchSelector,
   userSelector,
 } from "../../store/selectors";
-import { createLibraryInstance } from "../../utils/createLibraryInstance";
+import OrderOptionsForm from "./EnterNewOrder/OrderOptionsForm";
 import NavBar from "../AppBar/AppBar";
 import BookCard from "./BookCard";
 import AddModal from "./AddModal";
@@ -15,6 +15,7 @@ import SearchBar from "./SearchBar";
 import DetailModal from "./DetailModal";
 import { Paper } from "@mui/material";
 import ConfirmModal from "../Modal/ConfirmModal";
+import searchBook from "../../utils/searchBook";
 export default function Storage() {
   let libraryInfo = useSelector(librarySelector);
   const books = libraryInfo.books;
@@ -28,23 +29,12 @@ export default function Storage() {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [selected, setSelected] = useState({});
 
-  const searchBook = (searchText) => {
-    let result = [];
-    books.forEach((book) => {
-      let string = book.name + book.author;
-      if (
-        string
-          .toLowerCase()
-          .replaceAll(" ", "")
-          .includes(searchText.toLowerCase().replaceAll(" ", ""))
-      ) {
-        result.push(book);
-      }
-    });
-    return result;
+  const createOrderOptionForm = () => {
+    return currentUser && <OrderOptionsForm></OrderOptionsForm>;
   };
+
   useEffect(() => {
-    setResult([...searchBook(delayedSearch)]);
+    setResult([...searchBook(books, delayedSearch, setResult)]);
   }, [delayedSearch]);
   useEffect(() => {
     const { book, id, btn } = selected;
@@ -118,6 +108,7 @@ export default function Storage() {
           bookID={selected.id}
         />
       )}
+      {createOrderOptionForm()}
     </Grid>
   );
 }

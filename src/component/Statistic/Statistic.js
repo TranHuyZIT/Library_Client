@@ -24,8 +24,6 @@ export default function Statistic() {
     getAllOrders(setOrders, currentUser?.accessToken, axiosJWT, true);
   }, []);
   useEffect(() => {
-    console.log(orders);
-
     orders.forEach((order) => {
       rev += order.totalPrice;
       number += order.books.length;
@@ -37,17 +35,16 @@ export default function Statistic() {
       totalRating,
       totalRater: orders.length,
     };
-    console.log(totalRating, orders.length);
     setInfo(newInfo);
   }, [orders]);
   return (
-    <Grid container spacing={2}>
+    <Grid justifyContent="center" container spacing={2}>
       <Grid item xs={12}>
         <NavBar></NavBar>
       </Grid>
       <Grid sx={{ marginTop: "8px" }} item xs={12}>
-        <Grid container spacing={1}>
-          <Grid item xs={4}>
+        <Grid justifyContent="center" container spacing={1}>
+          <Grid item xs={12} sm={8} md={6} lg={4}>
             <Fade in={true} style={{ transitionDelay: `100ms` }}>
               <Paper sx={{ height: "500px" }} elevation={3}>
                 <Typography
@@ -98,7 +95,7 @@ export default function Statistic() {
               </Paper>
             </Fade>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={12} sm={8} md={6} lg={4}>
             <Fade in={true} style={{ transitionDelay: `200ms` }}>
               <Paper sx={{ height: "500px" }} elevation={3}>
                 <Typography
@@ -149,7 +146,7 @@ export default function Statistic() {
               </Paper>
             </Fade>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={12} sm={8} md={6} lg={4}>
             <Fade in={true} style={{ transitionDelay: `300ms` }}>
               <Paper sx={{ height: "500px" }} elevation={3}>
                 <Typography

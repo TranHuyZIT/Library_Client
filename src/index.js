@@ -24,7 +24,7 @@ const theme = createTheme({
       main: "#4dccbd",
     },
     error: {
-      main: "#fa8804",
+      main: "#ff0033",
     },
     info: {
       main: "#d9b99b",

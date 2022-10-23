@@ -100,6 +100,11 @@ export default function Register() {
                 onChange={(e) => {
                   setPassword(e.target.value);
                 }}
+                onKeyUp={(e) => {
+                  if (e.code === "Enter") {
+                    handleRegister();
+                  }
+                }}
               />
               {isFetching ? (
                 <div

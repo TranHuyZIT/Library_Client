@@ -20,6 +20,7 @@ import { cartSelector, userSelector } from "../../store/selectors";
 import { logoutUser } from "../../utils/apiRequest";
 import { createAxios } from "../../createInstance";
 import { addOrder } from "../../utils/apiRequest";
+import OrderDetailForm from "../Storage/EnterNewOrder/OrderDetailForm";
 
 const pages = [
   "Giới Thiệu",
@@ -40,30 +41,10 @@ const NavBar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElNavCart, setAnchorElNavCart] = useState(null);
+  const [open, setOpen] = useState(false);
 
-  const handleSell = () => {
-    if (currentUser) {
-      let price = 0,
-        rating = 0;
-      cart.forEach((cartItem) => {
-        price += cartItem.price;
-        rating += cartItem.rating;
-      });
-      console.log(rating);
-      rating /= cart.length;
-      console.log(price, rating);
-      const newOrder = {
-        userID: currentUser._id,
-        userName: currentUser.username,
-        books: [...cart],
-        totalPrice: price,
-        rating,
-      };
-      addOrder(newOrder, currentUser.accessToken, axiosJWT);
-      dispatch(cartReducer.actions.clearCart());
-    } else {
-      navigate("/login");
-    }
+  const openDetail = () => {
+    return open && <OrderDetailForm setOpen={setOpen}></OrderDetailForm>;
   };
 
   const handleMenu = (event) => {
@@ -337,7 +318,13 @@ const NavBar = () => {
                         width: "100%",
                       }}
                     >
-                      <Button onClick={handleSell} variant="contained">
+                      <Button
+                        onClick={() => {
+                          setOpen(true);
+                          handleCloseCart();
+                        }}
+                        variant="contained"
+                      >
                         Mua
                       </Button>
                     </MenuItem>
@@ -381,6 +368,7 @@ const NavBar = () => {
             </div>
           )}
         </Toolbar>
+        {openDetail()}
       </Container>
     </AppBar>
   );
