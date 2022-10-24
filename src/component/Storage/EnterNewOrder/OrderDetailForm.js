@@ -66,12 +66,9 @@ export default function OrderDetailForm({ setOpen }) {
   const dispatch = useDispatch();
   const delayedText = useDelay(text);
 
-  useEffect(() => {
-    console.log(numberDetail);
-  }, [numberDetail]);
-
-  const handleSell = () => {
+  const submitAndSave = () => {
     if (currentUser) {
+      // Enter New Order Step 3
       let price = 0,
         rating = 0;
       cart.forEach((cartItem) => {
@@ -90,6 +87,7 @@ export default function OrderDetailForm({ setOpen }) {
         rating,
         number: { ...numberDetail },
       };
+      // Enter New Order Step 4
       saveOrder(newOrder, currentUser.accessToken, axiosJWT, setLoading);
       dispatch(cartReducer.actions.clearCart());
       setOpen(false);
@@ -376,7 +374,7 @@ export default function OrderDetailForm({ setOpen }) {
               {loading === "idle" ? (
                 <Button
                   sx={{ marginLeft: "8px" }}
-                  onClick={handleSell}
+                  onClick={submitAndSave}
                   variant="contained"
                 >
                   Đặt

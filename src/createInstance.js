@@ -1,8 +1,8 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import { refreshTokenSuccess } from "./store/slices/authReducer";
-const API = "http://localhost:5000";
-// const API = "https://giahui-library.herokuapp.com";
+// const API = "http://localhost:5000";
+const API = "https://giahui-library.herokuapp.com";
 
 export const createAxios = (user) => {
   const newInstance = axios.create();

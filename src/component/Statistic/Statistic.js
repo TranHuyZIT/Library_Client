@@ -4,39 +4,49 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { userSelector } from "../../store/selectors";
 import { createAxios } from "../../createInstance";
-import { getAllOrders } from "../../utils/apiRequest";
+import { getAllOrderDetails } from "../../utils/apiRequest";
 import NavBar from "../AppBar/AppBar";
 import CircularStatic from "./Progress";
 export default function Statistic() {
-  let rev = 0,
-    number = 0,
-    totalRating = 0;
   const currentUser = useSelector(userSelector);
   const axiosJWT = createAxios(currentUser);
-  const [orders, setOrders] = useState([]);
   const [info, setInfo] = useState({
     rev: 0,
     number: 0,
     totalRating: 0,
     totalRater: 0,
   });
+  const [orderDetails, setOrderDetails] = useState([]);
   useEffect(() => {
-    getAllOrders(setOrders, currentUser?.accessToken, axiosJWT, true);
+    const getTotalRater = (total) => total;
+
+    getAllOrderDetails(
+      currentUser.accessToken,
+      axiosJWT,
+      true,
+      setOrderDetails,
+      setInfo
+    );
   }, []);
   useEffect(() => {
-    orders.forEach((order) => {
-      rev += order.totalPrice;
-      number += order.books.length;
-      totalRating += order.rating;
-    });
-    const newInfo = {
-      rev,
-      number,
-      totalRating,
-      totalRater: orders.length,
-    };
-    setInfo(newInfo);
-  }, [orders]);
+    console.log(orderDetails);
+    let rev = 0,
+      number = 0;
+    if (orderDetails.length > 0) {
+      orderDetails.forEach((detail) => {
+        rev += detail.price * detail.number;
+        number += detail.number;
+      });
+      const newInfo = {
+        rev,
+        number,
+      };
+      console.log(newInfo);
+      setInfo((prev) => {
+        return { ...prev, rev, number };
+      });
+    }
+  }, [orderDetails]);
   return (
     <Grid justifyContent="center" container spacing={2}>
       <Grid item xs={12}>

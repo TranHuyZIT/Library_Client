@@ -11,6 +11,7 @@ import { addBook, deleteBook } from "../../utils/apiRequest";
 import { userSelector } from "../../store/selectors";
 import { createAxios } from "../../createInstance";
 import { completeOrder } from "../../utils/apiRequest";
+import { useNavigate } from "react-router-dom";
 
 const style = {
   position: "absolute",
@@ -31,15 +32,18 @@ export default function ConfirmModal({
 }) {
   const currentUser = useSelector(userSelector);
   const axiosJWT = createAxios(currentUser);
+  const navigate = useNavigate();
 
   const handleDelete = () => {
     if (bookID) {
       deleteBook(bookID, axiosJWT, currentUser?.accessToken);
       setOpenConfirmModal(false);
+      navigate(0);
     }
     if (order) {
       completeOrder(order, currentUser?.accessToken, axiosJWT);
       setOpenConfirmModal(false);
+      navigate(0);
     }
   };
   return (

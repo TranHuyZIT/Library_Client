@@ -8,6 +8,7 @@ export default function OrderOptionsForm() {
   const handleClick = () => {
     setOpen(true);
   };
+  // Enter New Order Step 2
   const openOrderDetailForm = () => {
     return open && <OrderDetailForm setOpen={setOpen}></OrderDetailForm>;
   };

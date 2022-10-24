@@ -110,22 +110,20 @@ export const getBooksFromOrderDetails = async (
       `${API}/v1/orders/booksfromorder/${orderID}`
     );
     setBooks([...res.data]);
-    console.log(res.data);
     setLoading("idle");
   } catch (error) {
     console.log(error);
   }
 };
 
+// Enter New Order Step 5
 export const addOrder = async (order, accessToken, axiosJWT, setLoading) => {
   try {
     setLoading("loading");
-    console.log(order);
     await axiosJWT.post(`${API}/v1/orders/addorder`, order);
     setLoading("idle");
   } catch (error) {
     console.log(error);
-    // setLoading("error");
   }
 };
 
@@ -139,6 +137,38 @@ export const completeOrder = async (
     setLoading("loading");
     await axiosJWT.put(`${API}/v1/orders/${order._id}`);
     setLoading("idle");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getAllOrderDetails = async (
+  accessToken,
+  axiosJWT,
+  completed,
+  setOrderDetails,
+  setInfo
+) => {
+  try {
+    const { data } = await axiosJWT.get(`${API}/v1/orders/getallorders`, {
+      params: { completed },
+    });
+    let result = [];
+    let totalRating = 0,
+      totalRater = data.length;
+    for (let order of data) {
+      const orderDetailsResponse = await axiosJWT.get(
+        `${API}/v1/orders/booksfromorder/${order._id}`
+      );
+      totalRating += order.rating;
+      orderDetailsResponse.data.forEach((detail) => {
+        result.push(detail);
+      });
+    }
+    setInfo((prev) => {
+      return { ...prev, totalRating, totalRater };
+    });
+    setOrderDetails([...result]);
   } catch (error) {
     console.log(error);
   }

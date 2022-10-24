@@ -170,7 +170,9 @@ export default function OrderDetail({ setOpenDetail, order }) {
         </CardContent>
         <CardActions sx={{ width: "100%", justifyContent: "flex-end" }}>
           {loadingComplete === "idle" ? (
-            <Button size="small">Đã Hoàn Thành</Button>
+            <Button onClick={handleComplete} size="small">
+              Đã Hoàn Thành
+            </Button>
           ) : (
             <div
               style={{

@@ -29,6 +29,7 @@ export default function Storage() {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [selected, setSelected] = useState({});
 
+  // Enter New Order Step 1
   const createOrderOptionForm = () => {
     return currentUser && <OrderOptionsForm></OrderOptionsForm>;
   };

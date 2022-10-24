@@ -6,22 +6,20 @@ import CardMedia from "@mui/material/CardMedia";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { createAxios } from "../../createInstance";
-import { librarySelector, userSelector } from "../../store/selectors";
+import { userSelector } from "../../store/selectors";
 import { getAllOrders } from "../../utils/apiRequest";
 import NavBar from "../AppBar/AppBar";
 import ConfirmModal from "../Modal/ConfirmModal";
 import OrderDetail from "./OrderDetail";
 export default function Members() {
   const currentUser = useSelector(userSelector);
-  const allBooks = useSelector(librarySelector).books;
   const axiosJWT = createAxios(currentUser);
   const [orders, setOrders] = useState([]);
-  const [bookNames, setBookNames] = useState([]);
   const [openConfirm, setOpenConfirm] = useState(false);
   const [selected, setSelected] = useState(null);
   const [openDetail, setOpenDetail] = useState(false);
 
-  const openDetailOrder = (order) => {
+  const openDetailOrder = (order, event) => {
     setSelected(order);
     setOpenDetail(true);
   };
@@ -55,8 +53,8 @@ export default function Members() {
                       }}
                     >
                       <Card
-                        onClick={() => {
-                          openDetailOrder(order);
+                        onClick={(e) => {
+                          openDetailOrder(order, e);
                         }}
                         sx={{
                           display: "flex",
@@ -236,7 +234,8 @@ export default function Members() {
                           sx={{ display: "flex", justifyContent: "flex-end" }}
                         >
                           <Button
-                            onClick={() => {
+                            onClick={(e) => {
+                              e.stopPropagation();
                               completeOrderClick(order);
                             }}
                             variant="contained"
