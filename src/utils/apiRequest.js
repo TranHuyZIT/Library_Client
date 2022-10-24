@@ -15,8 +15,8 @@ import {
   setBooksSucceeded,
 } from "../store/slices/libraryReducer";
 import cartReducer from "../store/slices/cartReducer";
-// const API = "https://giahui-library.herokuapp.com";
-const API = "http://localhost:5000";
+const API = "https://giahui-library.herokuapp.com";
+// const API = "http://localhost:5000";
 export const registerUser = async (user, dispatch, navigate) => {
   dispatch(registerStart());
   try {
