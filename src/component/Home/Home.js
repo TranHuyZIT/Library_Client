@@ -2,8 +2,38 @@ import Grid from "@mui/material/Grid";
 import NavBar from "../AppBar/AppBar";
 import { Paper, Typography } from "@mui/material";
 import MuiImageSlider from "mui-image-slider";
-import { styled } from "@mui/material/styles";
 import "./Home.css";
+import Section from "./Section";
+
+const AboutUs = () => (
+  <div className="about-us-paper">
+    <Grid
+      className="about-us-container"
+      container
+      spacing={3}
+      style={{ display: "flex", justifyContent: "center" }}
+    >
+      <Grid item xs={12} md={4} lg={3}>
+        <div className="logoHome-container">
+          <img className="logoHome" src="/1.png" />
+        </div>
+      </Grid>
+      <Grid item xs={12} md={8} lg={9}>
+        <Grid sx={{ height: "100%" }} container alignItems="center">
+          <Grid item xs={12}>
+            <p style={{ fontSize: "24px" }}>
+              Nhà sách Ngày Nắng là một tủ sách cho người trẻ tổng hợp nhiều
+              loại sách, mang đến tri thức và hành trang chuẩn bị cho những bạn
+              trẻ trên con đường tương lai sắp tới. Đến với Ngày Nắng, các bạn
+              trẻ sẽ được tiếp xúc với những đầu sách mới HOT nhất, bán chạy
+              nhất trên thị trường.
+            </p>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Grid>
+  </div>
+);
 
 export default function Home() {
   const imagesForSlide = [
@@ -12,34 +42,7 @@ export default function Home() {
     "https://cdn0.fahasa.com/media/magentothem/banner7/STKT9_Banner_840x320.jpg",
     "https://cdn0.fahasa.com/media/magentothem/banner7/dongamamxanh_resize_840x320.jpg",
   ];
-  const Heading = styled("div")(({ theme }) => ({
-    padding: theme.spacing(1),
-    [theme.breakpoints.up("md")]: {
-      color: "white",
-      fontWeight: "700",
-      textAlign: "center",
-      padding: "24px",
-      backgroundColor: "#012641",
-      borderRadius: "8px",
-      width: "20%",
-      fontSize: "32px",
-      textAlign: "center",
-      fontFamily: "Roboto",
-    },
-    [theme.breakpoints.down("md")]: {
-      color: "white",
-      fontWeight: "700",
-      textAlign: "center",
-      fontFamily: "Roboto",
-      padding: "8px",
-      backgroundColor: "#012641",
-      borderRadius: "16px",
-      width: "20%",
-      fontSize: "24px",
-      textAlign: "center",
-      marginBottom: "16px",
-    },
-  }));
+
   return (
     <Grid container justifyContent="center" spacing={2}>
       <Grid item xs={12}>
@@ -81,54 +84,8 @@ export default function Home() {
               </Grid>
             </Grid>
           </Grid>
-          <Grid
-            sx={{ marginTop: "24px" }}
-            container
-            justifyContent="center"
-            spacing={2}
-          >
-            <Grid justifyContent="center" item xs={12}>
-              <div style={{ display: "flex", justifyContent: "center" }}>
-                <Heading>Về Chúng Tôi</Heading>
-              </div>
-              <Grid item xs={12}>
-                <Grid
-                  container
-                  spacing={3}
-                  style={{ display: "flex", justifyContent: "center" }}
-                >
-                  <Grid item xs={3}>
-                    <div style={{ display: "flex", justifyContent: "center" }}>
-                      <img className="logoHome" src="/1.png" />
-                    </div>
-                  </Grid>
-                  <Grid item xs={9}>
-                    <Grid sx={{ height: "100%" }} container alignItems="center">
-                      <Grid item xs={12}>
-                        <Typography
-                          className="BungeeFont"
-                          sx={{ textAlign: "center", color: "secondary.main" }}
-                          variant="h4"
-                          component="h6"
-                        >
-                          Ngày Nắng
-                        </Typography>
-                        <p style={{ fontSize: "24px" }}>
-                          Nhà sách Ngày Nắng là một tủ sách cho người trẻ tổng
-                          hợp nhiều loại sách, mang đến tri thức và hành trang
-                          chuẩn bị cho những bạn trẻ trên con đường tương lai
-                          sắp tới. Đến với Ngày Nắng, các bạn trẻ sẽ được tiếp
-                          xúc với những đầu sách mới HOT nhất, bán chạy nhất
-                          trên thị trường.
-                        </p>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
         </Paper>
+        <Section heading="About Us" Children={AboutUs} containerWidth={"50%"} />
       </Grid>
     </Grid>
   );

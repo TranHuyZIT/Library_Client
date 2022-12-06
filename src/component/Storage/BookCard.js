@@ -19,6 +19,14 @@ export default function BookCard({
   return (
     <Zoom in={true} style={{ transitionDelay: delay ? "100ms" : "0ms" }}>
       <Card
+        onClick={() => {
+          const selected = {
+            book,
+            id: book._id,
+            btn: "detail",
+          };
+          setSelected(selected);
+        }}
         sx={{
           maxWidth: 345,
           "&:hover": {

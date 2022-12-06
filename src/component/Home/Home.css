@@ -1,3 +1,74 @@
 .jss1, .imageslider{
     width: 100% !important;
 }
+.heading-container{
+    padding: 8px 16px 16px 16px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    font-family: "Poppins";
+}
+
+.section-name{
+    font-size: 40px;
+    color: #60B3D1;
+}
+
+.heading-seperator{
+    width: 180px;
+    position: relative;
+    margin-top: 10px;
+}
+.seperator-line{
+    height: 2px;
+    width: 100%;
+    background-color: #1f2235;
+}
+.seperator-knob{
+    height: 10px;
+    position: absolute;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    top: -100%;
+}
+.seperator-knob div{
+    height: 100%;
+    width: 35px;
+    border-radius: 10px;
+    background-color: #012641;
+}
+
+.about-us-paper{
+    border-radius: 10px;
+    width: 50%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.about-us-container{
+    width: 100%!important;
+}
+.logoHome-container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logoHome{
+    width: 100%;
+    border-radius: 50%;
+}
+
+@media only screen and (min-width: 900px) {
+    .about-us-paper{
+        width: 100%;
+    }
+    .logoHome-container{
+        width: 300px;
+    }
+}
