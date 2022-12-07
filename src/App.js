@@ -1,4 +1,3 @@
-import "./App.css";
 import axios from "axios";
 import Home from "./component/Home/Home";
 import StorageComponent from "./component/Storage/Storage";

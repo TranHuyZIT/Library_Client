@@ -8,6 +8,7 @@
     width: 100%;
     align-items: center;
     font-family: "Poppins";
+    box-sizing: border-box;
 }
 
 .section-name{
@@ -42,7 +43,8 @@
 
 .about-us-paper{
     border-radius: 10px;
-    width: 50%;
+    width: 100%;
+
     margin: auto;
     display: flex;
     justify-content: center;
@@ -61,14 +63,17 @@
 
 .logoHome{
     width: 100%;
+    max-width: 200px;
     border-radius: 50%;
 }
 
 @media only screen and (min-width: 900px) {
     .about-us-paper{
-        width: 100%;
     }
     .logoHome-container{
         width: 300px;
+    }
+    .logoHome{
+        max-width: unset;
     }
 }

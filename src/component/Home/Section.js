@@ -16,13 +16,20 @@ const Heading = ({ heading }) => {
   );
 };
 
-function Section({ heading, Children }) {
+function Section({ heading, Children, setState }) {
   return (
     <Paper sx={{ marginTop: "24px" }} elevation={5}>
-      <Grid container justifyContent="center" spacing={2}>
+      <Grid
+        sx={{ width: "100%" }}
+        container
+        justifyContent="center"
+        spacing={2}
+      >
         <Grid justifyContent="center" item xs={12}>
           <Heading heading={heading}></Heading>
-          {Children && <Children className="section-children" />}
+          {Children && (
+            <Children setState={setState} className="section-children" />
+          )}
         </Grid>
       </Grid>
     </Paper>
