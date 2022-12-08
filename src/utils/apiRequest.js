@@ -65,6 +65,16 @@ export const getAllBooks = async (setBooks, dispatch) => {
   dispatch(setBooksSucceeded([...res.data]));
   setBooks([...res.data]);
 };
+
+export const getBookGenres = async (setBookGenres) => {
+  try {
+    const res = await axios.get(`${API}/v1/books/genres`);
+    setBookGenres(res.data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const addBook = async (book, axiosJWT, accessToken) => {
   try {
     await axiosJWT.post(`${API}/v1/books/addbook`, book);
@@ -75,6 +85,19 @@ export const addBook = async (book, axiosJWT, accessToken) => {
 export const deleteBook = async (bookID, axiosJWT, accessToken) => {
   try {
     await axiosJWT.delete(`${API}/v1/books/deletebook/${bookID}`);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const updateBook = async (
+  bookID,
+  updatedBookInfo,
+  axiosJWT,
+  accessToken
+) => {
+  try {
+    await axiosJWT.put(`${API}/v1/books/updatebook/${bookID}`, updatedBookInfo);
   } catch (error) {
     console.log(error);
   }

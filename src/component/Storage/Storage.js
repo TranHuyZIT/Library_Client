@@ -33,6 +33,12 @@ export default function Storage() {
   const [selected, setSelected] = useState({});
   const [priceFilter, setPriceFilter] = useState([]);
 
+  const handleSearch = () => {
+    let searchResult = searchBook(books, delayedSearch, setResult);
+    setResult([...searchResult]);
+    return searchResult;
+  };
+
   const handleChangeFilter = (list) => {
     if (priceFilter.length == 0) {
       setResult([...list]);
@@ -43,7 +49,7 @@ export default function Storage() {
       let from = +filter.split(" ")[0];
       let to = +filter.split(" ")[1];
       if (to == "00") {
-        for (let book of list?.filter((book) => book.price > from * 10000)) {
+        for (let book of list?.filter((book) => book.price >= from * 10000)) {
           filterResult.push(book);
         }
       } else {
@@ -63,12 +69,14 @@ export default function Storage() {
   };
 
   useEffect(() => {
-    handleChangeFilter(books);
+    if (delayedSearch != "") {
+      let searchResult = handleSearch();
+      handleChangeFilter(searchResult);
+    } else handleChangeFilter(books);
   }, [priceFilter]);
 
   useEffect(() => {
-    let searchResult = searchBook(books, delayedSearch, setResult);
-    setResult([...searchResult]);
+    let searchResult = handleSearch();
     handleChangeFilter(searchResult);
   }, [delayedSearch]);
   useEffect(() => {

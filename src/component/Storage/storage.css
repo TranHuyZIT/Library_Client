@@ -8,7 +8,9 @@
     padding: 8px 16px;
     margin: 10px 0;
     width: 200px;
+    max-width: 100%;
     min-width: fit-content;
+    box-sizing: border-box;
 }
 .filter-heading{
     font-size: 24px;
