@@ -2,16 +2,23 @@ import { Paper } from "@mui/material";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
+import { useEffect, useState } from "react";
+import { getBookGenres } from "../../utils/apiRequest";
 
 export default function Filter({ setState }) {
-  const handlePriceFilter = (e) => {
-    setState[0]((prev) => {
+  const [allGenres, setAllGenres] = useState([]);
+  useEffect(() => {
+    getBookGenres(setAllGenres);
+  }, []);
+  const handleFilter = (e, index) => {
+    setState[index]((prev) => {
       if (prev.includes(e.target.name)) {
         return prev.filter((fil) => fil !== e.target.name);
       }
       return [...prev, e.target.name];
     });
   };
+
   return (
     <div className="filters-container">
       <Paper className="filter-container" elevation={2}>
@@ -19,19 +26,47 @@ export default function Filter({ setState }) {
         <div className="filter-content">
           <FormGroup>
             <FormControlLabel
-              control={<Checkbox onChange={handlePriceFilter} name="4 6" />}
+              control={
+                <Checkbox
+                  onChange={(e) => {
+                    handleFilter(e, 0);
+                  }}
+                  name="4 6"
+                />
+              }
               label="40.000 - 60.000"
             />
             <FormControlLabel
-              control={<Checkbox onChange={handlePriceFilter} name="6 8" />}
+              control={
+                <Checkbox
+                  onChange={(e) => {
+                    handleFilter(e, 0);
+                  }}
+                  name="6 8"
+                />
+              }
               label="60.000 - 80.000"
             />
             <FormControlLabel
-              control={<Checkbox onChange={handlePriceFilter} name="8 10" />}
+              control={
+                <Checkbox
+                  onChange={(e) => {
+                    handleFilter(e, 0);
+                  }}
+                  name="8 10"
+                />
+              }
               label="80.000 - 100.000"
             />
             <FormControlLabel
-              control={<Checkbox onChange={handlePriceFilter} name="10 00" />}
+              control={
+                <Checkbox
+                  onChange={(e) => {
+                    handleFilter(e, 0);
+                  }}
+                  name="10 00"
+                />
+              }
               label="> 100.000"
             />
           </FormGroup>
@@ -41,10 +76,22 @@ export default function Filter({ setState }) {
         <div className="filter-heading">Thể Loại</div>
         <div className="filter-content">
           <FormGroup>
-            <FormControlLabel control={<Checkbox />} label="Tài Chính" />
-            <FormControlLabel control={<Checkbox />} label="Giáo Dục" />
-            <FormControlLabel control={<Checkbox />} label="Truyện Tranh" />
-            <FormControlLabel control={<Checkbox />} label="Tâm Lý" />
+            {allGenres.map((genre, index) => {
+              return (
+                <FormControlLabel
+                  key={`genre-filter-${index}`}
+                  control={
+                    <Checkbox
+                      name={genre.name}
+                      onChange={(e) => {
+                        handleFilter(e, 1);
+                      }}
+                    />
+                  }
+                  label={genre.name}
+                />
+              );
+            })}
           </FormGroup>
         </div>
       </Paper>

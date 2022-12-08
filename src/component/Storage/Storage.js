@@ -32,6 +32,7 @@ export default function Storage() {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [selected, setSelected] = useState({});
   const [priceFilter, setPriceFilter] = useState([]);
+  const [genreFilter, setGenreFilter] = useState([]);
 
   const handleSearch = () => {
     let searchResult = searchBook(books, delayedSearch, setResult);
@@ -40,7 +41,7 @@ export default function Storage() {
   };
 
   const handleChangeFilter = (list) => {
-    if (priceFilter.length == 0) {
+    if (priceFilter.length == 0 && genreFilter.length == 0) {
       setResult([...list]);
       return;
     }
@@ -60,6 +61,23 @@ export default function Storage() {
         }
       }
     }
+    if (filterResult.length != 0) {
+      list = filterResult;
+      for (let filter of genreFilter) {
+        for (let book of list.filter((book) => book.genre == filter)) {
+          if (!filterResult.includes(book)) {
+            filterResult.filter((bookResult) => bookResult != book);
+          }
+        }
+      }
+    } else {
+      for (let filter of genreFilter) {
+        for (let book of list.filter((book) => book.genre == filter)) {
+          filterResult.push(book);
+        }
+      }
+    }
+
     setResult([...filterResult]);
   };
 
@@ -73,7 +91,7 @@ export default function Storage() {
       let searchResult = handleSearch();
       handleChangeFilter(searchResult);
     } else handleChangeFilter(books);
-  }, [priceFilter]);
+  }, [priceFilter, genreFilter]);
 
   useEffect(() => {
     let searchResult = handleSearch();
@@ -101,7 +119,7 @@ export default function Storage() {
               <Section
                 style={{ width: "100%" }}
                 heading="Tìm theo"
-                setState={[setPriceFilter]}
+                setState={[setPriceFilter, setGenreFilter]}
                 Children={Filter}
               ></Section>
             </Grid>
