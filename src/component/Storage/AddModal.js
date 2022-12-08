@@ -7,9 +7,10 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { libraryReducer } from "../../store/slices/libraryReducer";
-import { addBook } from "../../utils/apiRequest";
+import { addBook, getBookGenres } from "../../utils/apiRequest";
 import { userSelector } from "../../store/selectors";
 import { createAxios } from "../../createInstance";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 const style = {
   position: "absolute",
   top: "50%",
@@ -30,6 +31,8 @@ export default function AddModal({ open, setOpenAddModal }) {
   const [des, setDes] = useState("");
   const [price, setPrice] = useState("");
   const [valid, setValid] = useState(false);
+  const [allGenres, setAllGenres] = useState([]);
+  const [selectedGenre, setSelectedGenre] = useState("");
 
   const dispatch = useDispatch();
   const currentUser = useSelector(userSelector);
@@ -43,6 +46,10 @@ export default function AddModal({ open, setOpenAddModal }) {
     }
   }, [name, author, number, price, img, des, valid]);
 
+  useEffect(() => {
+    getBookGenres(setAllGenres);
+  }, []);
+
   const handleAdd = () => {
     const info = {
       name,
@@ -51,6 +58,7 @@ export default function AddModal({ open, setOpenAddModal }) {
       img,
       price,
       description: des,
+      genre: selectedGenre,
     };
     addBook(info, axiosJWT, currentUser.accessToken);
     setOpenAddModal(false);
@@ -133,6 +141,28 @@ export default function AddModal({ open, setOpenAddModal }) {
             setPrice(e.target.value);
           }}
         />
+        {currentUser?.admin ? (
+          <FormControl sx={{ marginTop: "10px" }} fullWidth>
+            <InputLabel>Thể loại</InputLabel>
+            <Select
+              value={selectedGenre}
+              onChange={(e) => {
+                setSelectedGenre(e.target.value);
+              }}
+              label="Thể loại"
+            >
+              {allGenres.map((genre, index) => {
+                return (
+                  <MenuItem key={`add-genre${index}`} value={genre.name}>
+                    {genre.name}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
+        ) : (
+          <></>
+        )}
         <Box
           sx={{
             marginTop: "10px",

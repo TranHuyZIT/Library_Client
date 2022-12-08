@@ -89,7 +89,7 @@ export default function DetailModal({ open, setOpenDetailModal, book }) {
             </Fade>
           </Grid>
           <Grid item xs={6}>
-            <Grid container spacing={1}>
+            <Grid container spacing={1} alignItems="center">
               <Grid item xs={3}>
                 <Typography
                   variant="h6"
@@ -118,7 +118,7 @@ export default function DetailModal({ open, setOpenDetailModal, book }) {
                 )}
               </Grid>
             </Grid>
-            <Grid container spacing={1}>
+            <Grid container spacing={1} alignItems="center">
               <Grid item xs={3}>
                 <Typography
                   variant="h6"
@@ -150,7 +150,7 @@ export default function DetailModal({ open, setOpenDetailModal, book }) {
                 )}
               </Grid>
             </Grid>
-            <Grid container spacing={1}>
+            <Grid container spacing={1} alignItems="center">
               <Grid item xs={3}>
                 <Typography
                   variant="h6"
@@ -182,7 +182,7 @@ export default function DetailModal({ open, setOpenDetailModal, book }) {
                 )}
               </Grid>
             </Grid>
-            <Grid container spacing={1}>
+            <Grid container spacing={1} alignItems="center">
               <Grid item xs={3}>
                 <Typography
                   variant="h6"
@@ -214,7 +214,7 @@ export default function DetailModal({ open, setOpenDetailModal, book }) {
                 )}
               </Grid>
             </Grid>
-            <Grid container spacing={1}>
+            <Grid container spacing={1} alignItems="center">
               <Grid item xs={3}>
                 <Typography
                   variant="h6"
@@ -245,86 +245,86 @@ export default function DetailModal({ open, setOpenDetailModal, book }) {
                   </Typography>
                 )}
               </Grid>
-              <Grid container spacing={1}>
+            </Grid>
+            <Grid container spacing={1} alignItems="center">
+              <Grid item xs={3}>
+                <Typography
+                  variant="h6"
+                  component="h6"
+                  sx={{ fontWeight: 600, color: "secondary.main" }}
+                >
+                  Thể loại
+                </Typography>
+              </Grid>
+              <Grid item xs={9} sx={{ boxSizing: "border-box" }}>
+                {currentUser?.admin ? (
+                  <FormControl fullWidth>
+                    <InputLabel>Thể loại</InputLabel>
+                    <Select
+                      value={updatedBook?.genre}
+                      onChange={(e) => {
+                        setUpdatedBook({
+                          ...updatedBook,
+                          genre: e.target.value,
+                        });
+                      }}
+                      label="Thể loại"
+                    >
+                      {bookGenres.map((genre, index) => {
+                        return (
+                          <MenuItem key={`genre${index}`} value={genre.name}>
+                            {genre.name}
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
+                  </FormControl>
+                ) : (
+                  <Typography variant="subheading" sx={{ fontWeight: 300 }}>
+                    {genre}
+                  </Typography>
+                )}
+              </Grid>
+            </Grid>
+            {currentUser?.admin ? (
+              <></>
+            ) : (
+              <Grid container spacing={1} alignItems="center">
                 <Grid item xs={3}>
                   <Typography
                     variant="h6"
                     component="h6"
                     sx={{ fontWeight: 600, color: "secondary.main" }}
                   >
-                    Thể loại
+                    Đánh Giá
                   </Typography>
                 </Grid>
-                <Grid item xs={9} sx={{ boxSizing: "border-box" }}>
-                  {currentUser?.admin ? (
-                    <FormControl fullWidth>
-                      <InputLabel>Thể loại</InputLabel>
-                      <Select
-                        value={updatedBook?.genre}
-                        onChange={(e) => {
-                          setUpdatedBook({
-                            ...updatedBook,
-                            genre: e.target.value,
-                          });
-                        }}
-                        label="Thể loại"
-                      >
-                        {bookGenres.map((genre, index) => {
-                          return (
-                            <MenuItem key={`genre${index}`} value={genre.name}>
-                              {genre.name}
-                            </MenuItem>
-                          );
-                        })}
-                      </Select>
-                    </FormControl>
-                  ) : (
-                    <Typography variant="subheading" sx={{ fontWeight: 300 }}>
-                      {description}
-                    </Typography>
-                  )}
+                <Grid item xs={9}>
+                  <Rating
+                    name="simple-controlled"
+                    precision={1}
+                    value={value}
+                    onChange={(event, newValue) => {
+                      setValue(newValue);
+                    }}
+                  />
                 </Grid>
               </Grid>
-              {currentUser?.admin ? (
-                <></>
-              ) : (
-                <Grid container spacing={1}>
-                  <Grid item xs={3}>
-                    <Typography
-                      variant="h6"
-                      component="h6"
-                      sx={{ fontWeight: 600, color: "secondary.main" }}
-                    >
-                      Đánh Giá
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={9}>
-                    <Rating
-                      name="simple-controlled"
-                      precision={1}
-                      value={value}
-                      onChange={(event, newValue) => {
-                        setValue(newValue);
-                      }}
-                    />
-                  </Grid>
-                </Grid>
-              )}
+            )}
 
-              <Grid container spacing={1}>
-                <Grid
-                  sx={{
-                    marginTop: "24px",
-                    display: "flex",
-                    justifyContent: "flex-end",
-                  }}
-                  item
-                  xs={12}
-                >
-                  <Button onClick={handleSell} variant="contained">
-                    {currentUser?.admin ? "Lưu" : "Thêm"}
-                  </Button>
-                </Grid>
+            <Grid container spacing={1} alignItems="center">
+              <Grid
+                sx={{
+                  marginTop: "24px",
+                  display: "flex",
+                  justifyContent: "flex-end",
+                }}
+                item
+                xs={12}
+              >
+                <Button onClick={handleSell} variant="contained">
+                  {currentUser?.admin ? "Lưu" : "Thêm"}
+                </Button>
               </Grid>
             </Grid>
           </Grid>

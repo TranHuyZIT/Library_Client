@@ -19,6 +19,7 @@ import ConfirmModal from "../Modal/ConfirmModal";
 import searchBook from "../../utils/searchBook";
 import Section from "../Home/Section";
 import Filter from "./Filter";
+import { performIntersection } from "../../utils/commonUtils";
 export default function Storage() {
   let libraryInfo = useSelector(librarySelector);
   const books = libraryInfo.books;
@@ -87,23 +88,48 @@ export default function Storage() {
   };
 
   useEffect(() => {
-    if (delayedSearch != "") {
-      let searchResult = handleSearch();
-      handleChangeFilter(searchResult);
-    } else handleChangeFilter(books);
-  }, [priceFilter, genreFilter]);
+    let searchResult = handleSearch();
+    let priceFilterRes = [];
+    for (let filter of priceFilter) {
+      let from = +filter.split(" ")[0];
+      let to = +filter.split(" ")[1];
+      if (to == "00") {
+        for (let book of books.filter((book) => book.price >= from * 10000)) {
+          priceFilterRes.push(book);
+        }
+      } else {
+        for (let book of books.filter(
+          (book) => book.price > from * 10000 && book.price < to * 10000
+        )) {
+          priceFilterRes.push(book);
+        }
+      }
+    }
+    let genreFilterRes = [];
+    for (let filter of genreFilter) {
+      for (let book of books.filter((book) => book.genre == filter)) {
+        genreFilterRes.push(book);
+      }
+    }
+
+    let result = [...books];
+    if (searchResult.length > 0)
+      result = performIntersection(result, searchResult);
+    if (priceFilterRes.length > 0)
+      result = performIntersection(result, priceFilterRes);
+    if (genreFilterRes.length > 0)
+      result = performIntersection(result, genreFilterRes);
+    setResult(result);
+  }, [priceFilter, genreFilter, delayedSearch]);
 
   useEffect(() => {
-    let searchResult = handleSearch();
-    handleChangeFilter(searchResult);
-  }, [delayedSearch]);
-  useEffect(() => {
-    const { book, id, btn } = selected;
+    const { id, btn } = selected;
     if (id) {
       if (btn === "detail") setOpenDetailModal(true);
       if (btn === "delete") setOpenDeleteModal(true);
     }
   }, [selected]);
+
   return (
     <Grid container justifyContent="center" spacing={2}>
       <Grid item xs={12}>
