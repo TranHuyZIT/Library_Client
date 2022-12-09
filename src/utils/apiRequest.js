@@ -75,11 +75,19 @@ export const getBookGenres = async (setBookGenres) => {
   }
 };
 
-export const addBook = async (book, axiosJWT, accessToken) => {
+export const addBook = async (
+  book,
+  axiosJWT,
+  accessToken,
+  setLoading = undefined
+) => {
   try {
+    if (setLoading) setLoading(true);
     await axiosJWT.post(`${API}/v1/books/addbook`, book);
+    if (setLoading) setLoading(false);
   } catch (error) {
     console.log(error);
+    if (setLoading) setLoading(false);
   }
 };
 export const deleteBook = async (bookID, axiosJWT, accessToken) => {
@@ -170,9 +178,11 @@ export const getAllOrderDetails = async (
   axiosJWT,
   completed,
   setOrderDetails,
-  setInfo
+  setInfo,
+  setLoading = undefined
 ) => {
   try {
+    if (setLoading) setLoading(true);
     const { data } = await axiosJWT.get(`${API}/v1/orders/getallorders`, {
       params: { completed },
     });
@@ -192,7 +202,9 @@ export const getAllOrderDetails = async (
       return { ...prev, totalRating, totalRater };
     });
     setOrderDetails([...result]);
+    if (setLoading) setLoading(false);
   } catch (error) {
     console.log(error);
+    if (setLoading) setLoading(false);
   }
 };
